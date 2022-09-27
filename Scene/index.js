@@ -20,9 +20,6 @@ const initThreeJS = () => {
     camera.position.y = Math.sin(Config.CAMERA_VERTICAL_ANGLE) * Config.CAMERA_DISTANCE
     camera.lookAt(0, 0, 0)
 
-    //Add truck
-    const truck = new Truck(scene)
-
     //Add Ambient Light
     const ambientLightColor = 0xFFFFFF
     const ambientLightIntensity = 0.5
@@ -37,8 +34,12 @@ const initThreeJS = () => {
     pointLight.castShadow = true;
     scene.add(pointLight)
 
-    //Add Room
     const room = new Room(Config.FLOOR_SIZE, Config.WALL_HEIGHT, scene) 
+
+    const truck = new Truck(scene)
+
+    const shelves = new Shelves(scene)
+    shelves.move(0,0,-3)
 }
 
 

@@ -40,7 +40,7 @@ class Room {
     createFloorMaterial(args) {
         //TODO Parametrizar material
         const material = new THREE.MeshPhongMaterial({
-            color: 0xdbce58,
+            color: 0x6b570d,
             flatShading: true
         })
         material.side = THREE.DoubleSide
@@ -49,7 +49,7 @@ class Room {
 
     createWallMaterial(args) {
         const material = new THREE.MeshPhongMaterial({
-            color: 0x00FF00,
+            color: 0xadaa9e,
             flatShading: true
         })
         material.side = THREE.DoubleSide

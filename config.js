@@ -1,9 +1,9 @@
 const Config = {
-    FLOOR_SIZE: 10,
+    FLOOR_SIZE: 20,
     WALL_HEIGHT: 15,
-    ANTIALIAS: false,
+    ANTIALIAS: true,
     FOV: 75,
-    SHADOWS: false,
+    SHADOWS: true,
     CAMERA_VERTICAL_ANGLE: cameraPhi = Math.PI/6,
-    CAMERA_DISTANCE: 5
+    CAMERA_DISTANCE: 8
 }

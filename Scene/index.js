@@ -1,7 +1,9 @@
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 
-const renderer = new THREE.WebGLRenderer()
+const renderer = new THREE.WebGLRenderer({
+    antialias: true
+})
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
@@ -37,18 +39,19 @@ pointLight.position.set(1.0, 10, 2.5)
 scene.add(pointLight)
 
 //Add floor
-const floorColor = 0xdbce58
-const floorSize = 100
-const floorGeometry = new THREE.PlaneGeometry(floorSize, floorSize)
-const floorMaterial = new THREE.MeshPhongMaterial({
-    color: floorColor,
-    flatShading: true
-})
-floorMaterial.side = THREE.doubleSide
-const floor = new THREE.Mesh(floorGeometry, floorMaterial)
-floor.rotation.x = -Math.PI/2
-scene.add(floor)
+// const floorColor = 0xdbce58
+// const floorSize = 100
+// const floorGeometry = new THREE.PlaneGeometry(floorSize, floorSize)
+// const floorMaterial = new THREE.MeshPhongMaterial({
+//     color: floorColor,
+//     flatShading: true
+// })
+// floorMaterial.side = THREE.doubleSide
+// const floor = new THREE.Mesh(floorGeometry, floorMaterial)
+// floor.rotation.x = -Math.PI/2
+// scene.add(floor)
 
+const floor = new Room(Config.FLOOR_SIZE, Config.WALL_HEIGHT, scene) 
 
 const animate = () => {
     requestAnimationFrame( animate );
@@ -61,11 +64,18 @@ const animate = () => {
     camera.position.x = Math.cos(cameraPhi) * Math.sin(cameraAngle) * cameraDistance
     camera.position.z = Math.cos(cameraPhi) * Math.cos(cameraAngle) * cameraDistance
     camera.lookAt(0,0,0)
-    cameraAngle += 0.001
+    cameraAngle += 0.01
 
 
     renderer.render(scene, camera)
     
+}
+
+function readJsonFile(file) {
+    let bufferData = fs.readFileSync(file)
+    let stData = bufferData.toString()
+    let data = JSON.parse(stData)
+    return data
 }
 
 animate();

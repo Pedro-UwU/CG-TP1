@@ -12,6 +12,7 @@ class Room {
         this.wallGeometry = this.createWallGeometry(scene, args)
 
         this.floor = new THREE.Mesh(this.floorGeometry, this.floorMaterial)
+        this.floor.receiveShadow = true
         this.floor.rotation.x = -Math.PI/2
 
         this.wall_1 = new THREE.Mesh(this.wallGeometry, this.wallMaterial)

@@ -40,6 +40,9 @@ const initThreeJS = () => {
 
     const shelves = new Shelves(scene)
     shelves.move(0,0,-3)
+    const printer = new Printer(scene)
+    printer.move(0, 0, 5)
+    printer.rotate(0, Math.PI, 0)
 }
 
 

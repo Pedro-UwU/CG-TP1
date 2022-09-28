@@ -3,7 +3,7 @@ const Config = {
     WALL_HEIGHT: 15,
     ANTIALIAS: true,
     FOV: 75,
-    SHADOWS: true,
+    SHADOWS: false,
     CAMERA_VERTICAL_ANGLE: cameraPhi = Math.PI/6,
-    CAMERA_DISTANCE: 8
+    CAMERA_DISTANCE: 10
 }

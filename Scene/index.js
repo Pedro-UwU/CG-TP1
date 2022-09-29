@@ -3,6 +3,8 @@ let camera
 let renderer
 let cameraAngle = 0
 
+let room, truck, shleves, printer
+
 const initThreeJS = () => {
     scene = new THREE.Scene()
     camera = new THREE.PerspectiveCamera(Config.FOV, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -34,13 +36,14 @@ const initThreeJS = () => {
     pointLight.castShadow = true;
     scene.add(pointLight)
 
-    const room = new Room(Config.FLOOR_SIZE, Config.WALL_HEIGHT, scene) 
+    room = new Room(Config.FLOOR_SIZE, Config.WALL_HEIGHT, scene) 
 
-    const truck = new Truck(scene)
+    truck = new Truck(scene)
 
-    const shelves = new Shelves(scene)
+    shelves = new Shelves(scene)
     shelves.move(0,0,-3)
-    const printer = new Printer(scene)
+
+    printer = new Printer(scene)
     printer.move(0, 0, 5)
     printer.rotate(0, Math.PI, 0)
 }
@@ -50,6 +53,7 @@ const render = () => {
     requestAnimationFrame( render );
 
     updateCamera()
+    truck.update()
     renderer.render(scene, camera)
     
 }
@@ -68,6 +72,65 @@ const updateCamera = () => {
     cameraAngle += 0.001
 }
 
+const setupKeyboardControls = () => {
+    document.onkeydown = (event) => {
+        switch(event.key) {
+            case 'w':
+            case 'ArrowUp': 
+                truck.accelerate(0,0,Config.TRUCK_VEL)
+                break;
+            case 's':
+            case 'ArrowDown':
+                truck.accelerate(0,0,-Config.TRUCK_VEL)
+                break;
+            case 'a':
+            case 'ArrowLeft':
+                truck.rotate(0,Config.TRUCK_ROTATION_SPEED, 0)
+                break;
+            case 'd':
+            case 'ArrowRight':
+                truck.rotate(0, -Config.TRUCK_ROTATION_SPEED, 0)
+                break;
+            case 'q':
+                truck.moveLifter('down')
+                console.log('moving down')
+                break;
+            case 'e':
+                truck.moveLifter('up')
+                console.log('moving up')
+                break;
+        } 
+    }
+
+    document.onkeyup = (event) => {
+        switch(event.key) {
+            case 'w':
+            case 'ArrowUp':
+                truck.accelerate(0,0,0)
+                break;
+            case 's':
+            case 'ArrowDown':
+                truck.accelerate(0,0,0)
+                break;
+            case 'a':
+            case 'ArrowLeft':
+                truck.rotate(0, 0, 0)
+                break;
+            case 'd':
+            case 'ArrowRight':
+                truck.rotate(0, 0, 0)
+                break;
+            case 'q':
+                truck.moveLifter('stop')
+                break;
+            case 'e':
+                truck.moveLifter('stop')
+                break;
+        }
+    }
+}
+
 initThreeJS()
+setupKeyboardControls()
 updateCamera()
 render()

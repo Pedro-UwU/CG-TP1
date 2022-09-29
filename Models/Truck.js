@@ -11,9 +11,11 @@ class Truck {
         const wheelRadius = args.wheelRadius || 0.3
         const sitHeight = args.sitHeigh || 0.6
         const sitWidth = args.sitWidth || (bodyWidth * 0.5)
-        const elevatorHeight = args.elevatorHeight || 2
+        
+        this.elevatorHeight = args.elevatorHeight || 2
        
         this.body = this.createBody(bodyWidth, bodyHeight, bodyDepth, wheelRadius)
+        this.body.name = 'truck'
         scene.add(this.body)
 
 
@@ -30,8 +32,12 @@ class Truck {
         this.sit = this.createSit(sitHeight, sitWidth, bodyWidth, bodyHeight, bodyDepth)
         this.body.add(this.sit)
 
-        this.elevator = this.createElevator(elevatorHeight, bodyWidth, 3, bodyWidth, bodyHeight, bodyDepth)
+        this.elevator = this.createElevator(this.elevatorHeight, bodyWidth, 3, bodyWidth, bodyHeight, bodyDepth)
         this.body.add(this.elevator)
+
+        this.vel = [0,0,0]
+        this.rot = [0,0,0]
+        this.lifterSpeed = 0
     }
 
     createWheel(wheelHeight, wheelRadius, bodyWidth, bodyHeight, bodyDepth, front, side) {
@@ -82,7 +88,7 @@ class Truck {
             divisions.push(this.createElevatorDivision(bodyWidth * 1.1, 0.05, i * elevatorHeight/(elevatorSections-1)))
         }
 
-        const plate = this.createPlate(elevatorWidth, 0.01, 0.9)
+        const plate = this.createPlate(elevatorWidth, 0.01, 0)
 
         const elevator = new THREE.Object3D()
         elevator.position.set(0, 0, bodyDepth/2)
@@ -132,8 +138,53 @@ class Truck {
         })
         const plate = new THREE.Mesh(plateGeometry, plateMaterial)
         plate.position.set(0, y, width/2)
+        plate.name = 'truck-plate'
         plate.castShadow = true
         plate.receiveShadow = true
         return plate
+    }
+
+    accelerate(velX, velY, velZ) {
+        this.vel = [velX, velY, velZ]
+    }
+
+    rotate(rX, rY, rZ) {
+        this.rot[0] = rX
+        this.rot[1] = rY
+        this.rot[2] = rZ
+    }
+
+    moveLifter(dir) {
+        switch(dir) {
+            case 'up':
+                this.lifterSpeed = Config.LIFTER_SPEED
+                break;
+            case 'down':
+                this.lifterSpeed = -Config.LIFTER_SPEED
+                break;
+            case 'stop':
+                this.lifterSpeed = 0
+                break;
+        }
+    }
+
+    update() {
+        this.body.translateX(this.vel[0])
+        this.body.translateY(this.vel[1])
+        this.body.translateZ(this.vel[2])
+
+        this.body.rotation.x += this.rot[0]
+        this.body.rotation.y += this.rot[1]
+        this.body.rotation.z += this.rot[2]
+
+        const plate = this.elevator.getObjectByName('truck-plate')
+        plate.translateY(this.lifterSpeed)
+        
+        if (plate.position.y < 0) {
+            plate.position.y  = 0
+        } else if (plate.position.y >= this.elevatorHeight) {
+            plate.position.y = this.elevatorHeight
+        }
+        console.log(plate.position.y)
     }
 }

@@ -1,7 +1,7 @@
 let scene
 let camera
 let renderer
-let cameraAngle = 0
+let cameraAngle = 0.5
 
 let room, truck, shleves, printer
 
@@ -16,6 +16,8 @@ const initThreeJS = () => {
     if (renderer.shadowMap.enabled) {
         renderer.shadowMap.type = THREE.PCFSoftShadowMap; 
     }
+    renderer.localClippingEnabled = true
+
     document.body.appendChild(renderer.domElement)
 
     //Add camera
@@ -46,14 +48,16 @@ const initThreeJS = () => {
     printer = new Printer(scene)
     printer.move(0, 0, 5)
     printer.rotate(0, Math.PI, 0)
+
+    printer.printShape("A2", 2)
 }
 
 
 const render = () => {
     requestAnimationFrame( render );
-
     updateCamera()
     truck.update()
+    printer.update()
     renderer.render(scene, camera)
     
 }
@@ -69,7 +73,7 @@ const updateCamera = () => {
     camera.position.x = Math.cos(Config.CAMERA_VERTICAL_ANGLE) * Math.sin(cameraAngle) * Config.CAMERA_DISTANCE
     camera.position.z = Math.cos(Config.CAMERA_VERTICAL_ANGLE) * Math.cos(cameraAngle) * Config.CAMERA_DISTANCE
     camera.lookAt(0,0,0)
-    cameraAngle += 0.001
+    cameraAngle -= 0.005
 }
 
 const setupKeyboardControls = () => {
@@ -93,11 +97,9 @@ const setupKeyboardControls = () => {
                 break;
             case 'q':
                 truck.moveLifter('down')
-                console.log('moving down')
                 break;
             case 'e':
                 truck.moveLifter('up')
-                console.log('moving up')
                 break;
         } 
     }

@@ -7,12 +7,26 @@ class Printer {
         const poleRadius = 0.05
         const poleHeight = baseHeight*2
         const plateSize = innerRadius * 2 - 0.5
+        const innerArmBlockSize = 0.2
+        const innerBlockSize = 0.3
+
+        this.baseHeight = baseHeight
+        this.armPosition  = 1 //Goes from 0 to 1
+        this.printing = false
+        this.innerArmBlockSize = innerArmBlockSize
+        this.innerBlockSize = innerBlockSize
 
         this.base = this.createBase(baseRadius, baseHeight, borderHeight, innerRadius)
         this.pole = this.createPole(baseRadius, poleRadius, poleHeight)
-        this.arm = this.createArm(poleHeight/2, baseRadius, plateSize)
+        this.arm = this.createArm(poleHeight/2, baseRadius, plateSize, this.armPosition)
         this.base.add(this.pole)
         this.pole.add(this.arm)
+
+        let absolutePlatePosition = new THREE.Vector3()
+        this.innerPlate.getWorldPosition(absolutePlatePosition)
+        
+        //Create clippingPlane fot the impresions
+        this.clippingPlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), absolutePlatePosition.y)
         scene.add(this.base)
     }
 
@@ -25,10 +39,10 @@ class Printer {
         points.push(new THREE.Vector2(innerRadius, height))
         points.push(new THREE.Vector2(0, height))
 
-        const baseGeometry = new THREE.LatheGeometry( points, 24)
+        const baseGeometry = new THREE.LatheGeometry( points, 64)
         const baseMaterial = new THREE.MeshPhongMaterial({
             color: 0xFFA0F4,
-            flatShading: true
+            flatShading: false
         })
         const base = new THREE.Mesh( baseGeometry, baseMaterial )
         base.castShadow = true
@@ -49,12 +63,11 @@ class Printer {
         return pole
     }
 
-    createArm(height, length, plateSize) {
-        const innerArmBlockSize = 0.2
-        const innerBlock = this.createInnerBlock(height, 0.3)
+    createArm(height, length, plateSize, initialPos) {
+        const innerBlock = this.createInnerBlock(initialPos * (this.baseHeight - this.innerBlockSize) + this.innerBlockSize/2, this.innerBlockSize)
         const innerArm = this.createInnerArm(length)
-        const innerArmBlock = this.createInnerArmBlock(innerArmBlockSize, length/2)
-        const innerPlate = this.createInnerPlate(plateSize, innerArmBlockSize/2)
+        const innerArmBlock = this.createInnerArmBlock(this.innerArmBlockSize, length/2)
+        const innerPlate = this.createInnerPlate(plateSize, this.innerArmBlockSize/2)
         innerBlock.add(innerArm)
         innerArm.add(innerArmBlock)
         innerArmBlock.add(innerPlate)
@@ -114,6 +127,7 @@ class Printer {
         innerPlate.receiveShadow = true
         innerPlate.rotation.x = Math.PI/2
         innerPlate.position.z = -yOffset
+        this.innerPlate = innerPlate
         return innerPlate
     }
 
@@ -124,4 +138,64 @@ class Printer {
     rotate(rx, ry, rz) {
         this.base.rotation.set(rx, ry, rz)
     }
+
+    getClippingPlane() {
+        return this.clippingPlane
+    }
+
+    printShape(shapeName, height) {
+        this.printing = true
+        this.armPosition = 0
+        this.updateArmPosition()
+        // Obtener la forma bezier del objeto segun el nombre
+        const shape = Curves[shapeName].getShape()
+        // Crear el objeto
+
+        let shapeGeometry, shapeMaterial
+        if (Curves[shapeName].type == 'Ext') {
+            const settings = {
+                steps: 10,
+                depth: height,
+                bevelEnabled: false
+            }
+
+            shapeGeometry = new THREE.ExtrudeGeometry(shape, settings)
+            shapeMaterial = new THREE.MeshPhongMaterial({
+                color: 0xFF0000,
+                clippingPlanes: [this.clippingPlane],
+                side: THREE.DoubleSide
+            })
+        }
+        const print = new THREE.Mesh(shapeGeometry, shapeMaterial)
+        print.castShadow = true
+        print.rotation.set(-Math.PI/2, 0, 0)
+        print.position.y = this.baseHeight
+        this.base.add(print)
+
+        // Hacer un twist si es extrude segun el angulo
+        // Bajar el arm a 0
+        // Setear el this.printing a true
+        // En el update subir de a poquito el plate y el clippingPlane
+
+    }
+
+    updateArmPosition() {
+        this.arm.position.y = this.armPosition * (this.baseHeight - this.innerBlockSize) + this.innerBlockSize/2
+        let absolutePlatePosition = new THREE.Vector3()
+        this.innerPlate.getWorldPosition(absolutePlatePosition)
+        this.clippingPlane.constant = absolutePlatePosition.y
+    }
+
+    update() {
+        if (this.printing) {
+            this.armPosition += 0.01
+            if (this.armPosition >= 1) {
+                this.armPosition = 1
+                this.printing = false
+            }
+            this.updateArmPosition()
+        }
+    }
+
+
 }

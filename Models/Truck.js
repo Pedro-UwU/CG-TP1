@@ -185,6 +185,5 @@ class Truck {
         } else if (plate.position.y >= this.elevatorHeight) {
             plate.position.y = this.elevatorHeight
         }
-        console.log(plate.position.y)
     }
 }

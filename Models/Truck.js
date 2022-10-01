@@ -35,6 +35,8 @@ class Truck {
         this.elevator = this.createElevator(this.elevatorHeight, bodyWidth, 3, bodyWidth, bodyHeight, bodyDepth)
         this.body.add(this.elevator)
 
+        this.plate = this.elevator.getObjectByName('truck-plate')
+
         this.vel = [0,0,0]
         this.rot = [0,0,0]
         this.lifterSpeed = 0
@@ -185,5 +187,22 @@ class Truck {
         } else if (plate.position.y >= this.elevatorHeight) {
             plate.position.y = this.elevatorHeight
         }
+    }
+
+    distanceToPlate(mesh) {
+        let position = new THREE.Vector3()
+        mesh.getWorldPosition(position)
+
+        let platePosition = new THREE.Vector3()
+        this.plate.getWorldPosition(platePosition)
+
+        return position.distanceTo(platePosition)
+    }
+
+    setPrint(mesh) {
+        this.plate.add(mesh)
+        //delete clipping Plane
+        mesh.material.clippingPlanes = []
+        mesh.position.set(0,0,0)
     }
 }

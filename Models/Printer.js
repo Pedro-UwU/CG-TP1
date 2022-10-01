@@ -72,6 +72,8 @@ class Printer {
         innerArm.add(innerArmBlock)
         innerArmBlock.add(innerPlate)
 
+        this.print = null
+
         return innerBlock
     }
 
@@ -166,19 +168,17 @@ class Printer {
                 flatShading: false,
                 side: THREE.DoubleSide
             })
-            //this.twistMesh(shapeGeometry, angle)
+            this.twistMesh(shapeGeometry, angle)
         }
         const print = new THREE.Mesh(shapeGeometry, shapeMaterial)
 
         print.castShadow = true
         print.rotation.set(-Math.PI/2, 0, 0)
         print.position.y = this.baseHeight
+        print.name = 'print'
         this.base.add(print)
-
-        // Hacer un twist si es extrude segun el angulo
-        // Bajar el arm a 0
-        // Setear el this.printing a true
-        // En el update subir de a poquito el plate y el clippingPlane
+        
+        this.print = print
 
     }
 
@@ -225,5 +225,16 @@ class Printer {
         geometry.computeVertexNormals();
     }
 
+    hasPrint() {
+        return this.print != null
+    }
+
+    detachPrint() {
+        const print = this.print
+        if (print != null) {
+            this.base.remove(print)
+        }
+        return print
+    }
 
 }

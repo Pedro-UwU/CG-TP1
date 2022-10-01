@@ -49,7 +49,7 @@ const initThreeJS = () => {
     printer.move(0, 0, 5)
     printer.rotate(0, Math.PI, 0)
 
-    printer.printShape("B4", 0.6, Math.PI/2)
+    printer.printShape("B3", 0.6, Math.PI/2)
 }
 
 
@@ -128,8 +128,19 @@ const setupKeyboardControls = () => {
             case 'e':
                 truck.moveLifter('stop')
                 break;
+            case 'g':
+                if (printer.hasPrint() && truck.distanceToPlate(printer.print) < Config.DISTANCE_TO_LIFT) {
+                    liftPrint()
+                }
+                break;
         }
     }
+}
+
+const liftPrint = () => {
+    print = printer.detachPrint()
+    truck.setPrint(print)
+    console.log(truck.plate)
 }
 
 initThreeJS()

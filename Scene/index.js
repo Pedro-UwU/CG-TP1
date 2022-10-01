@@ -52,8 +52,6 @@ const initThreeJS = () => {
     printer.move(0, 0, 5)
     printer.rotate(0, Math.PI, 0)
 
-    printer.printShape("B3", 1.2, Math.PI/2)
-
     cameraController = new CameraController(scene)
     cameraController.setCameras(scene, truck.body, printer.base, shelves.container)
 
@@ -68,7 +66,6 @@ const render = () => {
     printer.update()
     cameraController.update()
     renderer.render(scene, cameraController.getCurrentCamera())
-    
 }
 
 function readJsonFile(file) {
@@ -141,10 +138,11 @@ const setupKeyboardControls = () => {
                 if (truck.hasPrint()) {
                     putPrintOnShelf()
                 } else if (printer.hasPrint() && truck.distanceToPlate(printer.print) < Config.DISTANCE_TO_LIFT) {
-                    console.log('Lifting')
                     liftPrint()
                 }
                 break;
+            case 'k':
+                printer.printShape()
             case 'p':
             case 'o':
                 cameraController.zoomStop()
@@ -192,7 +190,6 @@ const liftPrint = () => {
 
 const putPrintOnShelf = () => {
     const shelf = shelves.getClosestShelf(truck.plate)
-    console.log(shelf)
     if (!shelf) {
          return
     }

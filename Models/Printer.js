@@ -145,7 +145,7 @@ class Printer {
         return this.clippingPlane
     }
 
-    printShape(shapeName, height, angle = 0) {
+    printShape() {
         if (this.hasPrint() || this.printing) {
             return
         }
@@ -153,25 +153,26 @@ class Printer {
         this.armPosition = 0
         this.updateArmPosition()
         // Obtener la forma bezier del objeto segun el nombre
-        const shape = Curves[shapeName].getShape()
+        
         // Crear el objeto
-
+        let shape
         let shapeGeometry, shapeMaterial
-        if (Curves[shapeName].type == 'Ext') {
+        if (GUIController.Print_type == 'Extrusion') {
+            shape = Curves[GUIController.Extrusion_Shape].getShape()
             const settings = {
-                steps: 10,
-                depth: height,
+                steps: GUIController.Print_Steps,
+                depth: GUIController.Print_Height,
                 bevelEnabled: false
             }
 
             shapeGeometry = new THREE.ExtrudeGeometry(shape, settings)
             shapeMaterial = new THREE.MeshPhongMaterial({
-                color: 0xFF0000,
+                color: GUIController.Print_Color,
                 clippingPlanes: [this.clippingPlane],
                 flatShading: false,
                 side: THREE.DoubleSide
             })
-            this.twistMesh(shapeGeometry, angle)
+            this.twistMesh(shapeGeometry, GUIController.Twist_Angle)
         }
         const print = new THREE.Mesh(shapeGeometry, shapeMaterial)
 
@@ -223,7 +224,7 @@ class Printer {
             vertices[i] = newX
             vertices[i+1] = newY
         }
-        geometry.computeVertexNormals();
+        //geometry.computeVertexNormals();
     }
 
     hasPrint() {

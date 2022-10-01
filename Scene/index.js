@@ -144,12 +144,7 @@ const setupKeyboardControls = () => {
                     console.log('Lifting')
                     liftPrint()
                 }
-                
                 break;
-            case 'k':
-                printer.printShape("B3", 1.2, Math.PI/2)
-                break;
-
             case 'p':
             case 'o':
                 cameraController.zoomStop()
@@ -163,6 +158,15 @@ const setupKeyboardControls = () => {
             case '3':
                 cameraController.switchCamera(3)
                 break;
+            case '4':
+                cameraController.switchCamera(4)
+                break;
+            case '5':
+                cameraController.switchCamera(5)
+                break;
+            case '6':
+                cameraController.switchCamera(6)
+                break
         }
     }
 }

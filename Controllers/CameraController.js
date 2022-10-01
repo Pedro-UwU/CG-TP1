@@ -13,8 +13,13 @@ class CameraController {
         this.movingMouse = false
         this.prevX = 0
         this.prevY = 0
+
+        this.truck = null
     }
     setCameras(scene, truck, printer, shelves) {
+        this.truck = truck
+
+
         //Camara 1: Orbital al centro
         const camera1 = new THREE.PerspectiveCamera(Config.FOV, window.innerWidth / window.innerHeight, 0.1, 1000)
         this.cameras.push(camera1)
@@ -32,6 +37,21 @@ class CameraController {
         this.targets.push(shelves)
         this.selectedCameraIndex = 2
         this.updateOrbitCamera()
+
+        const camera4 = new THREE.PerspectiveCamera(Config.FOV, window.innerWidth / window.innerHeight, 0.1, 1000)
+        this.cameras.push(camera4)
+        this.setDriverCamera()
+        this.selectedCameraIndex = 3
+
+        const camera5 = new THREE.PerspectiveCamera(Config.FOV, window.innerWidth / window.innerHeight, 0.1, 1000)
+        this.cameras.push(camera5)
+        this.setTruckCamera()
+        this.selectedCameraIndex = 4
+
+        const camera6 = new THREE.PerspectiveCamera(Config.FOV, window.innerWidth / window.innerHeight, 0.1, 1000)
+        this.cameras.push(camera6)
+        this.setSideCamera()
+        this.selectedCameraIndex = 5
     }
 
     getCurrentCamera() {
@@ -96,6 +116,29 @@ class CameraController {
         this.selectedCameraIndex = Number(number)-1
     }
 
+    setDriverCamera() {
+        const camera = this.cameras[3]
+        camera.rotation.y += Math.PI
+        camera.position.y += 1
+        camera.position.z -= 0.5
+        this.truck.add(camera)
+    }
 
+    setTruckCamera() {
+        const camera = this.cameras[4]
+        camera.rotation.y += Math.PI
+        camera.position.y += 2
+        camera.position.z -= 4
+        this.truck.add(camera)
+        camera.lookAt(0,0,2)
+    }
 
+    setSideCamera() {
+        const camera = this.cameras[5]
+        camera.rotation.y += Math.PI/2
+        camera.position.x += 3
+        camera.position.y += 1
+        this.truck.add(camera)
+
+    }
 }

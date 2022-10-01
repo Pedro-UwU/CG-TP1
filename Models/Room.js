@@ -17,17 +17,24 @@ class Room {
 
         this.wall_1 = new THREE.Mesh(this.wallGeometry, this.wallMaterial)
         this.wall_1.position.z = -this.floorSize/2
+        this.wall_1.position.y = this.wallSize/2
 
         this.wall_2 = new THREE.Mesh(this.wallGeometry, this.wallMaterial)
+        this.wall_2.rotation.y = Math.PI
         this.wall_2.position.z = this.floorSize/2
+        this.wall_2.position.y = this.wallSize/2
 
         this.wall_3 = new THREE.Mesh(this.wallGeometry, this.wallMaterial)
-        this.wall_3.rotation.y = -Math.PI/2
+        this.wall_3.rotation.y = Math.PI/2
         this.wall_3.position.x = -this.floorSize/2
+        this.wall_3.position.y = this.wallSize/2
+
 
         this.wall_4 = new THREE.Mesh(this.wallGeometry, this.wallMaterial)
-        this.wall_4.rotation.y = Math.PI/2
+        this.wall_4.rotation.y = -Math.PI/2
         this.wall_4.position.x = this.floorSize/2
+        this.wall_4.position.y = this.wallSize/2
+
 
         scene.add(this.floor)
         scene.add(this.wall_1)
@@ -43,7 +50,6 @@ class Room {
             color: 0x6b570d,
             flatShading: true
         })
-        material.side = THREE.DoubleSide
         return material
     }
 
@@ -52,7 +58,6 @@ class Room {
             color: 0xadaa9e,
             flatShading: true
         })
-        material.side = THREE.DoubleSide
         return material
     }
 

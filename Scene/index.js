@@ -2,6 +2,7 @@ let scene
 let camera
 let renderer
 let cameraAngle = 0.5
+let cameraController
 
 let room, truck, shleves, printer
 
@@ -19,6 +20,8 @@ const initThreeJS = () => {
     renderer.localClippingEnabled = true
 
     document.body.appendChild(renderer.domElement)
+
+    
 
     //Add camera
     camera.position.y = Math.sin(Config.CAMERA_VERTICAL_ANGLE) * Config.CAMERA_DISTANCE
@@ -50,6 +53,11 @@ const initThreeJS = () => {
     printer.rotate(0, Math.PI, 0)
 
     printer.printShape("B3", 1.2, Math.PI/2)
+
+    cameraController = new CameraController(scene)
+    cameraController.setCameras(scene, truck.body, printer.base, shelves.container)
+
+    //const controls = new THREE.OrbitControls(cameras.getCurrentCamera(), renderer.domElement)
 }
 
 
@@ -58,7 +66,8 @@ const render = () => {
     updateCamera()
     truck.update()
     printer.update()
-    renderer.render(scene, camera)
+    cameraController.update()
+    renderer.render(scene, cameraController.getCurrentCamera())
     
 }
 
@@ -101,6 +110,12 @@ const setupKeyboardControls = () => {
             case 'e':
                 truck.moveLifter('up')
                 break;
+            case 'o':
+                cameraController.zoomIn()
+                break;
+            case 'p':
+                cameraController.zoomOut()
+                break;
         } 
     }
 
@@ -108,23 +123,17 @@ const setupKeyboardControls = () => {
         switch(event.key) {
             case 'w':
             case 'ArrowUp':
-                truck.accelerate(0,0,0)
-                break;
             case 's':
             case 'ArrowDown':
                 truck.accelerate(0,0,0)
                 break;
             case 'a':
             case 'ArrowLeft':
-                truck.rotate(0, 0, 0)
-                break;
             case 'd':
             case 'ArrowRight':
                 truck.rotate(0, 0, 0)
                 break;
             case 'q':
-                truck.moveLifter('stop')
-                break;
             case 'e':
                 truck.moveLifter('stop')
                 break;
@@ -140,7 +149,35 @@ const setupKeyboardControls = () => {
             case 'k':
                 printer.printShape("B3", 1.2, Math.PI/2)
                 break;
+
+            case 'p':
+            case 'o':
+                cameraController.zoomStop()
+                break;
+            case '1':
+                cameraController.switchCamera(1)
+                break;
+            case '2':
+                cameraController.switchCamera(2)
+                break;
+            case '3':
+                cameraController.switchCamera(3)
+                break;
         }
+    }
+}
+
+const setupMouseControls = () => {
+    document.onmousedown = (event) => {
+        cameraController.movingMouse = true
+    }
+
+    document.onmouseup = (event) => {
+        cameraController.movingMouse = false
+    }
+
+    document.onmousemove = (event) => {
+        cameraController.updateCameraPosition(event.clientX, event.clientY)
     }
 }
 
@@ -161,5 +198,6 @@ const putPrintOnShelf = () => {
 
 initThreeJS()
 setupKeyboardControls()
+setupMouseControls()
 updateCamera()
 render()

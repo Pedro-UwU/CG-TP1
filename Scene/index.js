@@ -32,9 +32,9 @@ const initThreeJS = () => {
 
     //Add Point Light
     const pointLightColor = 0xFFFFFF
-    const pointLightIntensity = 1
+    const pointLightIntensity = 0.75
     const pointLight = new THREE.PointLight(pointLightColor, pointLightIntensity)
-    pointLight.position.set(3, 6, 2.5)
+    pointLight.position.set(3, 10, 2.5)
     pointLight.castShadow = true;
     scene.add(pointLight)
 
@@ -49,7 +49,7 @@ const initThreeJS = () => {
     printer.move(0, 0, 5)
     printer.rotate(0, Math.PI, 0)
 
-    printer.printShape("B3", 0.6, Math.PI/2)
+    printer.printShape("B3", 1.2, Math.PI/2)
 }
 
 
@@ -129,9 +129,16 @@ const setupKeyboardControls = () => {
                 truck.moveLifter('stop')
                 break;
             case 'g':
-                if (printer.hasPrint() && truck.distanceToPlate(printer.print) < Config.DISTANCE_TO_LIFT) {
+                if (truck.hasPrint()) {
+                    putPrintOnShelf()
+                } else if (printer.hasPrint() && truck.distanceToPlate(printer.print) < Config.DISTANCE_TO_LIFT) {
+                    console.log('Lifting')
                     liftPrint()
                 }
+                
+                break;
+            case 'k':
+                printer.printShape("B3", 1.2, Math.PI/2)
                 break;
         }
     }
@@ -140,7 +147,16 @@ const setupKeyboardControls = () => {
 const liftPrint = () => {
     print = printer.detachPrint()
     truck.setPrint(print)
-    console.log(truck.plate)
+}
+
+const putPrintOnShelf = () => {
+    const shelf = shelves.getClosestShelf(truck.plate)
+    console.log(shelf)
+    if (!shelf) {
+         return
+    }
+    const print = truck.detachPrint()
+    shelf.add(print)
 }
 
 initThreeJS()

@@ -9,5 +9,5 @@ const Config = {
     TRUCK_VEL: 0.05,
     TRUCK_ROTATION_SPEED: 0.05,
     LIFTER_SPEED: 0.05,
-    DISTANCE_TO_LIFT: 5
+    DISTANCE_TO_LIFT: 0.5
 }

@@ -19,6 +19,8 @@ class Shelves {
             }
             this.avaiablePlaces.push(shelfSpaces)
         }
+        this.levels = levels
+        this.spaces = spaces
 
         const legY = legHeight/2
         for (let i = 0; i < levels; i++) {
@@ -55,8 +57,7 @@ class Shelves {
             const tempMaterial = new THREE.MeshPhongMaterial({
                 color: 0x0000FF
             })
-            const temp = new THREE.Mesh(tempGeometry, tempMaterial)
-            temp.position.y = 0.25
+            const temp = new THREE.Object3D()
             temp.position.x = x
             shelf.add(temp)
             avaiablePlaces[i] = temp
@@ -84,4 +85,28 @@ class Shelves {
     move(x, y, z) {
         this.container.position.set(x, y, z)
     }
+
+    getClosestShelf(mesh) {
+        let meshPos = new THREE.Vector3()
+        mesh.getWorldPosition(meshPos)
+
+        let closestDist = Infinity
+        let closestShelf = null
+        for (let i = 0; i < this.levels; i++) {
+            for (let j = 0; j < this.spaces; j++) {
+                if (this.avaiablePlaces[i][j].children.length > 0) {
+                    continue
+                }
+                let shelfPos = new THREE.Vector3()
+                this.avaiablePlaces[i][j].getWorldPosition(shelfPos)
+                const dist = meshPos.distanceTo(shelfPos)
+                if (dist < closestDist && dist < Config.DISTANCE_TO_LIFT) {
+                    closestDist = dist
+                    closestShelf = this.avaiablePlaces[i][j]
+                }
+            }
+        }
+        return closestShelf
+    }
+
 }

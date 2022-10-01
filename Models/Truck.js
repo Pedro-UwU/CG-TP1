@@ -205,4 +205,17 @@ class Truck {
         mesh.material.clippingPlanes = []
         mesh.position.set(0,0,0)
     }
+
+    hasPrint() {
+        console.log(this.plate.children.length)
+        return this.plate.children.length != 0
+    }
+
+    detachPrint() {
+        const print = this.plate.children[0]
+        if (print) {
+            this.plate.remove(print)
+        }
+        return print
+    }
 }

@@ -146,6 +146,9 @@ class Printer {
     }
 
     printShape(shapeName, height, angle = 0) {
+        if (this.hasPrint() || this.printing) {
+            return
+        }
         this.printing = true
         this.armPosition = 0
         this.updateArmPosition()
@@ -202,7 +205,6 @@ class Printer {
 
     twistMesh(geometry, totalAngle) {
         const vertices = geometry.attributes.position.array
-        console.log(vertices)
 
         //get maxZ
         let maxZ = 0
@@ -211,7 +213,6 @@ class Printer {
                 maxZ = vertices[i]
             }
         }
-        console.log(maxZ)
         for (let i = 0; i < vertices.length; i+=3) {
             let x = vertices[i]
             let y = vertices[i+1]
@@ -226,13 +227,14 @@ class Printer {
     }
 
     hasPrint() {
-        return this.print != null
+        return this.print != null && !this.printing
     }
 
     detachPrint() {
         const print = this.print
         if (print != null) {
             this.base.remove(print)
+            this.print = null
         }
         return print
     }

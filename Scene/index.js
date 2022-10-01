@@ -49,7 +49,7 @@ const initThreeJS = () => {
     printer.move(0, 0, 5)
     printer.rotate(0, Math.PI, 0)
 
-    printer.printShape("A2", 2)
+    printer.printShape("B4", 0.6, Math.PI/2)
 }
 
 

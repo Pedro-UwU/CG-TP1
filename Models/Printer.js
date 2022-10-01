@@ -143,7 +143,7 @@ class Printer {
         return this.clippingPlane
     }
 
-    printShape(shapeName, height) {
+    printShape(shapeName, height, angle = 0) {
         this.printing = true
         this.armPosition = 0
         this.updateArmPosition()
@@ -163,10 +163,13 @@ class Printer {
             shapeMaterial = new THREE.MeshPhongMaterial({
                 color: 0xFF0000,
                 clippingPlanes: [this.clippingPlane],
+                flatShading: false,
                 side: THREE.DoubleSide
             })
+            //this.twistMesh(shapeGeometry, angle)
         }
         const print = new THREE.Mesh(shapeGeometry, shapeMaterial)
+
         print.castShadow = true
         print.rotation.set(-Math.PI/2, 0, 0)
         print.position.y = this.baseHeight
@@ -195,6 +198,31 @@ class Printer {
             }
             this.updateArmPosition()
         }
+    }
+
+    twistMesh(geometry, totalAngle) {
+        const vertices = geometry.attributes.position.array
+        console.log(vertices)
+
+        //get maxZ
+        let maxZ = 0
+        for (let i = 2; i < vertices.length; i += 3) {
+            if (vertices[i] > maxZ) {
+                maxZ = vertices[i]
+            }
+        }
+        console.log(maxZ)
+        for (let i = 0; i < vertices.length; i+=3) {
+            let x = vertices[i]
+            let y = vertices[i+1]
+            let z = vertices[i+2]
+            let angle = totalAngle *(z/maxZ);
+            const newX = x * Math.cos(angle) - y * Math.sin(angle)
+            const newY = x * Math.sin(angle) + y * Math.cos(angle)
+            vertices[i] = newX
+            vertices[i+1] = newY
+        }
+        geometry.computeVertexNormals();
     }
 
 

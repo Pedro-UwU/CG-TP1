@@ -5,7 +5,7 @@ class Shelves {
         const spaces = 8
         const height = 3
         const floorOffset = 1
-        const cellWidth = 1
+        const cellWidth = 1.1
         const width = cellWidth * spaces
         const legHeight = height + floorOffset - (height/levels/2)
 

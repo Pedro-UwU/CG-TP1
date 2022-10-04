@@ -3,12 +3,12 @@ const Curves = {
         getShape: () => {
         const shape = new THREE.Shape()
         shape.moveTo(0.25,0)
-        shape.lineTo(0.125, 0.21650635094610965)
+        shape.lineTo(-0.125, -0.21650635094610965)
         shape.lineTo(-0.125, 0.21650635094610965)
 
         const path = new THREE.Path()
         path.moveTo(0.25,0)
-        path.lineTo(0.125, 0.21650635094610965)
+        path.lineTo(-0.125, -0.21650635094610965)
         path.lineTo(-0.125, 0.21650635094610965)
         shape.holes.push(path)
 
@@ -116,5 +116,71 @@ const Curves = {
             return shape
         },
         type: "Ext"
+    },
+    /* A1
+    M0,-1 L-1,-1 L-1,-0.75 L-0.33,-0.5 C-0.75,-0.25 -0.75,0.25 -0.33,0.5 L-1,0.75 L-1,1 L0,1
+    */
+    "A1": {
+        getPath: () => {
+            const path = new THREE.Path()
+            path.moveTo(0.0,0.0)
+            path.lineTo(-0.5,0.0)
+            path.lineTo(-0.5,0.125)
+            path.lineTo(-0.165,0.25)
+            path.bezierCurveTo(-0.375,0.375,-0.375,0.625,-0.165,0.75)
+            path.lineTo(-0.5,0.875)
+            path.lineTo(-0.5,1.0)
+            path.lineTo(0.0,1.0)
+            return path
+        },
+        type: "Rev"
+    },
+    /* A2
+    M0,0 C-0.5,0 -1,-0.15 -0.95,-0.5 C-0.95,-0.5 -0.75,-1 -0.75,-1.5 C-0.75,-2 -1,-2.25 -1,-2.5 C-1,-2.75 -0.5,-2.5 -0.5,-3
+    */
+    "A2": {
+        getPath: () => {
+            const path = new THREE.Path();
+            path.moveTo(0.0,-0.0)
+            path.bezierCurveTo(-0.16666666666666666,-0.0,-0.3333333333333333,0.049999999999999996,-0.31666666666666665,0.16666666666666666)
+            path.bezierCurveTo(-0.31666666666666665,0.16666666666666666,-0.25,0.3333333333333333,-0.25,0.5)
+            path.bezierCurveTo(-0.25,0.6666666666666666,-0.3333333333333333,0.75,-0.3333333333333333,0.8333333333333334)
+            path.bezierCurveTo(-0.3333333333333333,0.9166666666666666,-0.16666666666666666,0.8333333333333334,-0.16666666666666666,1.0)
+            return path
+        },
+        type: "Rev"
+    },
+    /* A3
+    M0,0 L-1.5,0 L-0.25,0.5 L-0.25,0.75 C-0.9,0.75 -1,0.9 -1,1.5 L-0.98,2.15 C-0.98,2.45 -0.25,2.15 -0.25,2.5
+    */
+    "A3": {
+        getPath: () => {
+            const path = new THREE.Path()
+            path.moveTo(0.0,0.0)
+            path.lineTo(-0.5,0.0)
+            path.lineTo(-0.1,0.2)
+            path.lineTo(-0.1,0.3)
+            path.bezierCurveTo(-0.36,0.3,-0.4,0.36,-0.4,0.6)
+            path.lineTo(-0.392,0.86)
+            path.bezierCurveTo(-0.392,0.98,-0.1,0.86,-0.1,1.0)
+            return path
+        },
+        type: "Rev"
+    },
+    /* A4
+    M0,0 L-0.5,0 C-0.75,0 -0.75,0.5 -0.5,0.5 C-0.05,0.5 -0.15,1.3 -1,1.5 C-0.15,1.5 -1,2.5 0,2.5
+    */
+    "A4": {
+        getPath: () => {
+            const path = new THREE.Path()
+            path.moveTo(0.0,0.0)
+                path.lineTo(-0.2,0.0)
+                path.bezierCurveTo(-0.3,0.0,-0.3,0.2,-0.2,0.2)
+                path.bezierCurveTo(-0.02,0.2,-0.06,0.52,-0.4,0.6)
+                path.bezierCurveTo(-0.06,0.6,-0.4,1.0,0.0,1.0)
+            return path
+        },
+        type: "Rev"
     }
+
 }

@@ -1,6 +1,6 @@
 const GUIController = {
-    Print_type: "Extrusion",
-    Revolution_Shape: "A3",
+    Print_type: "Revolution",
+    Revolution_Shape: "A1",
     Extrusion_Shape: "B2",
     Twist_Angle: 0.2,
     Print_Height: 1,

@@ -37,7 +37,7 @@ const initThreeJS = () => {
     const pointLightColor = 0xFFFFFF
     const pointLightIntensity = 0.75
     const pointLight = new THREE.PointLight(pointLightColor, pointLightIntensity)
-    pointLight.position.set(3, 10, 2.5)
+    pointLight.position.set(0, 5, 0)
     pointLight.castShadow = true;
     scene.add(pointLight)
 
@@ -61,7 +61,6 @@ const initThreeJS = () => {
 
 const render = () => {
     requestAnimationFrame( render );
-    updateCamera()
     truck.update()
     printer.update()
     cameraController.update()
@@ -73,13 +72,6 @@ function readJsonFile(file) {
     let stData = bufferData.toString()
     let data = JSON.parse(stData)
     return data
-}
-
-const updateCamera = () => {
-    camera.position.x = Math.cos(Config.CAMERA_VERTICAL_ANGLE) * Math.sin(cameraAngle) * Config.CAMERA_DISTANCE
-    camera.position.z = Math.cos(Config.CAMERA_VERTICAL_ANGLE) * Math.cos(cameraAngle) * Config.CAMERA_DISTANCE
-    camera.lookAt(0,0,0)
-    cameraAngle -= 0.005
 }
 
 const setupKeyboardControls = () => {
@@ -200,5 +192,4 @@ const putPrintOnShelf = () => {
 initThreeJS()
 setupKeyboardControls()
 setupMouseControls()
-updateCamera()
 render()

@@ -170,16 +170,36 @@ class Printer {
                 color: GUIController.Print_Color,
                 clippingPlanes: [this.clippingPlane],
                 flatShading: false,
-                side: THREE.DoubleSide
+                side: THREE.DoubleSide,
+                shininess: 30,
+                specular: 0xDDDDDD
             })
             this.twistMesh(shapeGeometry, GUIController.Twist_Angle)
+        } else if (GUIController.Print_type == 'Revolution') {
+            shape = Curves[GUIController.Revolution_Shape].getPath()
+            shapeGeometry = new THREE.LatheGeometry( shape.getPoints(), GUIController.Print_Steps );
+            shapeMaterial = new THREE.MeshPhongMaterial({
+                color: GUIController.Print_Color,
+                clippingPlanes: [this.clippingPlane],
+                flatShading: false,
+                side: THREE.DoubleSide,
+                shininess: 30,
+                specular: 0xDDDDDD
+            })
+            console.log(shapeGeometry)
         }
         const print = new THREE.Mesh(shapeGeometry, shapeMaterial)
 
         print.castShadow = true
-        print.rotation.set(-Math.PI/2, 0, 0)
+        if (GUIController.Print_type == 'Extrusion') {
+            print.rotation.set(-Math.PI/2, 0, 0)
+        }
         print.position.y = this.baseHeight
+        
         print.name = 'print'
+
+        print.geometry.computeVertexNormals();
+
         this.base.add(print)
         
         this.print = print

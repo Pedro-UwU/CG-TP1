@@ -54,8 +54,6 @@ const initThreeJS = () => {
 
     cameraController = new CameraController(scene)
     cameraController.setCameras(scene, truck.body, printer.base, shelves.container)
-
-    //const controls = new THREE.OrbitControls(cameras.getCurrentCamera(), renderer.domElement)
 }
 
 
@@ -162,15 +160,15 @@ const setupKeyboardControls = () => {
 }
 
 const setupMouseControls = () => {
-    document.onmousedown = (event) => {
+    renderer.domElement.onmousedown = (event) => {
         cameraController.movingMouse = true
     }
 
-    document.onmouseup = (event) => {
+    renderer.domElement.onmouseup = (event) => {
         cameraController.movingMouse = false
     }
 
-    document.onmousemove = (event) => {
+    renderer.domElement.onmousemove = (event) => {
         cameraController.updateCameraPosition(event.clientX, event.clientY)
     }
 }

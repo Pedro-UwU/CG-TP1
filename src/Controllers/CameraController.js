@@ -139,6 +139,5 @@ class CameraController {
         camera.position.x += 3
         camera.position.y += 1
         this.truck.add(camera)
-
     }
 }

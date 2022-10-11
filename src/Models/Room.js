@@ -35,12 +35,22 @@ class Room {
         this.wall_4.position.x = this.floorSize/2
         this.wall_4.position.y = this.wallSize/2
 
+        this.roof = this.floor.clone()
+        this.roof.rotation.x += Math.PI
+        this.roof.position.y = this.wallSize
 
-        scene.add(this.floor)
-        scene.add(this.wall_1)
-        scene.add(this.wall_2)
-        scene.add(this.wall_3)
-        scene.add(this.wall_4)
+        this.container = new THREE.Object3D()
+
+
+
+        this.container.add(this.floor)
+        this.container.add(this.wall_1)
+        this.container.add(this.wall_2)
+        this.container.add(this.wall_3)
+        this.container.add(this.wall_4)
+        this.container.add(this.roof)
+
+        scene.add(this.container)
 
     }
 

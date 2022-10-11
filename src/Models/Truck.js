@@ -179,6 +179,14 @@ class Truck {
         this.body.rotation.y += this.rot[1]
         this.body.rotation.z += this.rot[2]
 
+        if (this.vel[2] != 0) {
+            const rotationSpeed = 1
+            this.wheelFR.rotation.x += this.vel[2] * rotationSpeed
+            this.wheelFL.rotation.x += this.vel[2] * rotationSpeed
+            this.wheelBR.rotation.x += this.vel[2] * rotationSpeed
+            this.wheelBL.rotation.x += this.vel[2] * rotationSpeed
+        }
+
         const plate = this.elevator.getObjectByName('truck-plate')
         plate.translateY(this.lifterSpeed)
         
@@ -207,7 +215,6 @@ class Truck {
     }
 
     hasPrint() {
-        console.log(this.plate.children.length)
         return this.plate.children.length != 0
     }
 

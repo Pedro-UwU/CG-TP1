@@ -166,25 +166,25 @@ class Printer {
             }
 
             shapeGeometry = new THREE.ExtrudeGeometry(shape, settings)
+            //shapeGeometry = THREE.mergeVertices(shapeGeometry, 1e-5)
             shapeMaterial = new THREE.MeshPhongMaterial({
                 color: GUIController.Print_Color,
                 clippingPlanes: [this.clippingPlane],
                 flatShading: false,
                 side: THREE.DoubleSide,
-                shininess: 30,
-                specular: 0xDDDDDD
+                shininess: 50
             })
             this.twistMesh(shapeGeometry, GUIController.Twist_Angle)
         } else if (GUIController.Print_type == 'Revolution') {
             shape = Curves[GUIController.Revolution_Shape].getPath()
             shapeGeometry = new THREE.LatheGeometry( shape.getPoints(), GUIController.Print_Steps );
+            //shapeGeometry = THREE.mergeVertices(shapeGeometry, 1e-5)
             shapeMaterial = new THREE.MeshPhongMaterial({
                 color: GUIController.Print_Color,
                 clippingPlanes: [this.clippingPlane],
                 flatShading: false,
                 side: THREE.DoubleSide,
-                shininess: 30,
-                specular: 0xDDDDDD
+                shininess: 50
             })
             console.log(shapeGeometry)
         }
@@ -244,7 +244,6 @@ class Printer {
             vertices[i] = newX
             vertices[i+1] = newY
         }
-        //geometry.computeVertexNormals();
     }
 
     hasPrint() {

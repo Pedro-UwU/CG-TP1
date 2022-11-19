@@ -179,7 +179,7 @@ class Printer {
             shape = Curves[GUIController.Revolution_Shape].getPath()
             shapeGeometry = new THREE.LatheGeometry( shape.getPoints(), GUIController.Print_Steps, 0, 2*Math.PI );
 
-            //flip the normals, they are inverted
+            //flip the normals, they are inverted (IDK why)
             let temp;
             for ( let i = 0; i < shapeGeometry.index.array.length; i += 3 ) {
                 // swap the first and third values

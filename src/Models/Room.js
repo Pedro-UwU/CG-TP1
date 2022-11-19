@@ -55,10 +55,12 @@ class Room {
     }
 
     createFloorMaterial(args) {
-        //TODO Parametrizar material
         const material = new THREE.MeshPhongMaterial({
-            color: 0x6b570d,
-            flatShading: true
+            // color: 0x6b570d,
+            // flatShading: true,
+            map: floorTexture,
+            normalMap: floorNormal,
+            side: THREE.DoubleSide
         })
         return material
     }

@@ -166,8 +166,6 @@ class Printer {
             }
 
             shapeGeometry = new THREE.ExtrudeGeometry(shape, settings)
-            shapeGeometry.computeVertexNormals();
-            shapeGeometry.normalizeNormals();
             shapeMaterial = new THREE.MeshPhongMaterial({
                 color: GUIController.Print_Color,
                 clippingPlanes: [this.clippingPlane],
@@ -176,6 +174,7 @@ class Printer {
                 shininess: 50
             })
             this.twistMesh(shapeGeometry, GUIController.Twist_Angle)
+
         } else if (GUIController.Print_type == 'Revolution') {
             shape = Curves[GUIController.Revolution_Shape].getPath()
             shapeGeometry = new THREE.LatheGeometry( shape.getPoints(), GUIController.Print_Steps, 0, 2*Math.PI );

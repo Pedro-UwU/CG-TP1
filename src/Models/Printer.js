@@ -166,7 +166,8 @@ class Printer {
             }
 
             shapeGeometry = new THREE.ExtrudeGeometry(shape, settings)
-            //shapeGeometry = THREE.mergeVertices(shapeGeometry, 1e-5)
+            shapeGeometry.computeVertexNormals();
+            shapeGeometry.normalizeNormals();
             shapeMaterial = new THREE.MeshPhongMaterial({
                 color: GUIController.Print_Color,
                 clippingPlanes: [this.clippingPlane],
@@ -177,16 +178,25 @@ class Printer {
             this.twistMesh(shapeGeometry, GUIController.Twist_Angle)
         } else if (GUIController.Print_type == 'Revolution') {
             shape = Curves[GUIController.Revolution_Shape].getPath()
-            shapeGeometry = new THREE.LatheGeometry( shape.getPoints(), GUIController.Print_Steps );
-            //shapeGeometry = THREE.mergeVertices(shapeGeometry, 1e-5)
+            shapeGeometry = new THREE.LatheGeometry( shape.getPoints(), GUIController.Print_Steps, 0, 2*Math.PI );
+
+            //flip the normals, they are inverted
+            let temp;
+            for ( let i = 0; i < shapeGeometry.index.array.length; i += 3 ) {
+                // swap the first and third values
+                temp = shapeGeometry.index.array[ i ];
+                shapeGeometry.index.array[ i ] = shapeGeometry.index.array[ i + 2 ];
+                shapeGeometry.index.array[ i + 2 ] = temp;
+            }
+
             shapeMaterial = new THREE.MeshPhongMaterial({
                 color: GUIController.Print_Color,
                 clippingPlanes: [this.clippingPlane],
                 flatShading: false,
-                side: THREE.DoubleSide,
-                shininess: 50
+                side: THREE.DoubleSide
             })
             console.log(shapeGeometry)
+            
         }
         const print = new THREE.Mesh(shapeGeometry, shapeMaterial)
 
@@ -198,7 +208,7 @@ class Printer {
         
         print.name = 'print'
 
-        print.geometry.computeVertexNormals();
+        //print.geometry.computeVertexNormals();
 
         this.base.add(print)
         

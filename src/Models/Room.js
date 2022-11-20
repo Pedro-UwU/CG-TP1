@@ -56,19 +56,16 @@ class Room {
 
     createFloorMaterial(args) {
         const material = new THREE.MeshPhongMaterial({
-            // color: 0x6b570d,
-            // flatShading: true,
             map: floorTexture,
-            normalMap: floorNormal,
-            side: THREE.DoubleSide
+            normalMap: floorNormal
         })
         return material
     }
 
     createWallMaterial(args) {
         const material = new THREE.MeshPhongMaterial({
-            color: 0xadaa9e,
-            flatShading: true
+            map: wallTexture,
+            normalMap: wallNormal
         })
         return material
     }

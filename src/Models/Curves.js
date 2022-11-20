@@ -130,7 +130,7 @@ const Curves = {
             path.bezierCurveTo(-0.375,0.375,-0.375,0.625,-0.165,0.75)
             path.lineTo(-0.5,0.875)
             path.lineTo(-0.5,1.0)
-            path.lineTo(0.0,1.0)
+            path.lineTo(-0.3,1.0)
             return path
         },
         type: "Rev"

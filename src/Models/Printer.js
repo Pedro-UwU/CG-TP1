@@ -167,17 +167,17 @@ class Printer {
 
             shapeGeometry = new THREE.ExtrudeGeometry(shape, settings)
             shapeMaterial = new THREE.MeshPhongMaterial({
-                color: GUIController.Print_Color,
+                // color: GUIController.Print_Color,
+                map: printTexture1,
                 clippingPlanes: [this.clippingPlane],
                 flatShading: false,
-                side: THREE.DoubleSide,
-                shininess: 50
+                side: THREE.DoubleSide
             })
             this.twistMesh(shapeGeometry, GUIController.Twist_Angle)
 
         } else if (GUIController.Print_type == 'Revolution') {
             shape = Curves[GUIController.Revolution_Shape].getPath()
-            shapeGeometry = new THREE.LatheGeometry( shape.getPoints(), GUIController.Print_Steps, 0, 2*Math.PI );
+            shapeGeometry = new THREE.LatheGeometry( shape.getSpacedPoints(), GUIController.Print_Steps, 0, 2*Math.PI );
 
             //flip the normals, they are inverted (IDK why)
             let temp;
@@ -189,7 +189,8 @@ class Printer {
             }
 
             shapeMaterial = new THREE.MeshPhongMaterial({
-                color: GUIController.Print_Color,
+                //color: GUIController.Print_Color,
+                map: printTexture1,
                 clippingPlanes: [this.clippingPlane],
                 flatShading: false,
                 side: THREE.DoubleSide

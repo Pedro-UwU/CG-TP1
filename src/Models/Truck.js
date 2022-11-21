@@ -45,10 +45,15 @@ class Truck {
     createWheel(wheelHeight, wheelRadius, bodyWidth, bodyHeight, bodyDepth, front, side) {
         const wheelGeometry = new THREE.CylinderGeometry(wheelRadius, wheelRadius, wheelHeight, 16)
         const wheelMaterial = new THREE.MeshPhongMaterial({
-            color: 0x000000,
-            flatShading: true
+            // color: 0x000000,
+            // flatShading: true
+            map: wheelTexture
         })
-        const wheel = new THREE.Mesh(wheelGeometry, wheelMaterial)
+
+        const blackMaterial = new THREE.MeshPhongMaterial({
+            color: 0x2D2C31
+        })
+        const wheel = new THREE.Mesh(wheelGeometry, [blackMaterial, wheelMaterial, wheelMaterial])
         wheel.position.set(side * (bodyWidth/2 + wheelHeight/2), -bodyHeight/2, front * (bodyDepth/2 - wheelRadius))
         wheel.rotation.set(0, 0, Math.PI/2)
         wheel.castShadow = true
@@ -58,9 +63,7 @@ class Truck {
     createBody(bodyWidth, bodyHeight, bodyDepth, bodySpace) {
         const bodyGeometry = new THREE.BoxGeometry(bodyWidth, bodyHeight, bodyDepth)
         const bodyMaterial = new THREE.MeshPhongMaterial({
-            color: 0xFF0000,
-            flatShading: false
-        
+            map: truckTexture
         })
         const body = new THREE.Mesh(bodyGeometry, bodyMaterial)
         body.position.y = bodyHeight/2 + bodySpace
@@ -135,8 +138,7 @@ class Truck {
     createPlate(width, height, y) {
         const plateGeometry = new THREE.BoxGeometry(width, height, width)
         const plateMaterial = new THREE.MeshPhongMaterial({
-            color: 0x42cbe3,
-            flatShading: true
+            map: metalPlateTexture
         })
         const plate = new THREE.Mesh(plateGeometry, plateMaterial)
         plate.position.set(0, y, width/2)

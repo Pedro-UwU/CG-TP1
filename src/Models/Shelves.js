@@ -72,8 +72,7 @@ class Shelves {
     createLeg(x, y, z, height, size) {
         const legGeometry = new THREE.BoxGeometry(size, height, size)
         const legMaterial = new THREE.MeshPhongMaterial({
-            color: 0x101010,
-            flatShading: true
+            map: woodTexture
         })
         const leg = new THREE.Mesh(legGeometry, legMaterial)
         leg.position.set(x,y,z)

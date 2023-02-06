@@ -165,6 +165,8 @@ const setupKeyboardControls = () => {
     }
 }
 
+const reflectionCube = new THREE.CubeTextureLoader().load(["./src/assets/px.jpg", "./src/assets/nx.jpg", "./src/assets/py.jpg", "./src/assets/ny.jpg", "./src/assets/pz.jpg", "./src/assets/nz.jpg" ])
+
 const setupMouseControls = () => {
     renderer.domElement.onmousedown = (event) => {
         cameraController.movingMouse = true

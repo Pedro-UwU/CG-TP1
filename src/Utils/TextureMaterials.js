@@ -6,7 +6,6 @@ const wheelTexture = new THREE.TextureLoader().load('./src/assets/wheel.jpg', un
 const truckTexture = new THREE.TextureLoader().load('./src/assets/truck.jpg', undefined, undefined, (err) => {console.log("Error loading texture")})
 const woodTexture = new THREE.TextureLoader().load('./src/assets/wood.jpg', undefined, undefined, (err) => {console.log("Error loading texture")})
 const metalPlateTexture = new THREE.TextureLoader().load('./src/assets/metalPlate.jpg', undefined, undefined, (err) => {console.log("Error loading texture")})
-const envTexture = new THREE.TextureLoader().load('./src/assets/envTexture.jpg', undefined, undefined, (err) => {console.log("Error loading texture")})
 
 const printTexture1 = new THREE.TextureLoader().load('./src/assets/P1.png', undefined, undefined, (err) => {console.log("Error loading texture")})
 const printTexture2 = new THREE.TextureLoader().load('./src/assets/P2.png', undefined, undefined, (err) => {console.log("Error loading texture")})
@@ -64,6 +63,5 @@ printTexture4.repeat.set(2,4)
 printTexture5.wrapS = THREE.MirroredRepeatWrapping
 printTexture5.wrapT = THREE.MirroredRepeatWrapping
 printTexture5.repeat.set(2,4)
-
 
 

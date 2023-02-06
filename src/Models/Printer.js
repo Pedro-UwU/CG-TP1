@@ -42,7 +42,8 @@ class Printer {
         const baseGeometry = new THREE.LatheGeometry( points, 64)
         const baseMaterial = new THREE.MeshPhongMaterial({
             color: 0xFFA0F4,
-            flatShading: false
+            flatShading: false,
+            envMap: reflectionCube
         })
         const base = new THREE.Mesh( baseGeometry, baseMaterial )
         base.castShadow = true

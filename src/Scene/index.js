@@ -33,14 +33,6 @@ const initThreeJS = () => {
     const ambientLight = new THREE.AmbientLight(ambientLightColor, ambientLightIntensity)
     scene.add(ambientLight)
 
-    //Add Point Light
-    const pointLightColor = 0xFFFFFF
-    const pointLightIntensity = 0.75
-    const pointLight = new THREE.PointLight(pointLightColor, pointLightIntensity)
-    pointLight.position.set(0, 5, 0)
-    pointLight.castShadow = true;
-    scene.add(pointLight)
-
     room = new Room(Config.FLOOR_SIZE, Config.WALL_HEIGHT, scene) 
 
     truck = new Truck(scene)
@@ -54,6 +46,24 @@ const initThreeJS = () => {
 
     cameraController = new CameraController(scene)
     cameraController.setCameras(scene, truck.body, printer.base, shelves.container)
+    
+    const spot1 = new SpotLight(scene, {})
+    const spot2 = new SpotLight(scene, {})
+    const spot3 = new SpotLight(scene, {})
+    const spot4 = new SpotLight(scene, {})
+    const spot5 = new SpotLight(scene, {})
+    const spot6 = new SpotLight(scene, {})
+
+    spot1.move(Config.FLOOR_SIZE/5, Config.WALL_HEIGHT, 0)
+    spot2.move(-Config.FLOOR_SIZE/5, Config.WALL_HEIGHT, 0)
+    spot3.move(Config.FLOOR_SIZE/5, Config.WALL_HEIGHT, Config.FLOOR_SIZE/3)
+    spot4.move(-Config.FLOOR_SIZE/5, Config.WALL_HEIGHT, Config.FLOOR_SIZE/3)
+    spot5.move(Config.FLOOR_SIZE/5, Config.WALL_HEIGHT, -Config.FLOOR_SIZE/3)
+    spot6.move(-Config.FLOOR_SIZE/5, Config.WALL_HEIGHT, -Config.FLOOR_SIZE/3)
+    
+
+
+
 }
 
 

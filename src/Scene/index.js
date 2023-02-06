@@ -60,10 +60,6 @@ const initThreeJS = () => {
     spot4.move(-Config.FLOOR_SIZE/5, Config.WALL_HEIGHT, Config.FLOOR_SIZE/3)
     spot5.move(Config.FLOOR_SIZE/5, Config.WALL_HEIGHT, -Config.FLOOR_SIZE/3)
     spot6.move(-Config.FLOOR_SIZE/5, Config.WALL_HEIGHT, -Config.FLOOR_SIZE/3)
-    
-
-
-
 }
 
 

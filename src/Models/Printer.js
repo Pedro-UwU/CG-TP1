@@ -129,6 +129,35 @@ class Printer {
         innerPlate.receiveShadow = true
         innerPlate.rotation.x = Math.PI/2
         innerPlate.position.z = -yOffset
+        
+        const plateLightGeometry = new THREE.SphereGeometry(0.05, 5, 5)
+        const plateLightMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0xffffff })
+        const plateLight1 = new THREE.Mesh(plateLightGeometry, plateLightMaterial)
+        const plateLight2 = new THREE.Mesh(plateLightGeometry, plateLightMaterial)
+        const plateLight3 = new THREE.Mesh(plateLightGeometry, plateLightMaterial)
+        const plateLight4 = new THREE.Mesh(plateLightGeometry, plateLightMaterial)
+
+        plateLight1.position.set(size/2, 0, size/2)
+        plateLight2.position.set(size/2, 0, -size/2)
+        plateLight3.position.set(-size/2, 0, size/2)
+        plateLight4.position.set(-size/2, 0, -size/2)
+
+        innerPlate.add(plateLight1)
+        innerPlate.add(plateLight2)
+        innerPlate.add(plateLight3)
+        innerPlate.add(plateLight4)
+
+        const light1 = new THREE.PointLight(0xffffff, 0.005, 10)
+        const light2 = new THREE.PointLight(0xffffff, 0.005, 10)
+        const light3 = new THREE.PointLight(0xffffff, 0.005, 10)
+        const light4 = new THREE.PointLight(0xffffff, 0.005, 10)
+
+        plateLight1.add(light1)
+        plateLight2.add(light2)
+        plateLight3.add(light3)
+        plateLight4.add(light4)
+
+
         this.innerPlate = innerPlate
         return innerPlate
     }

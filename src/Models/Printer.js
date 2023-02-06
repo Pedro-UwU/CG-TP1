@@ -168,7 +168,7 @@ class Printer {
             shapeGeometry = new THREE.ExtrudeGeometry(shape, settings)
             shapeMaterial = new THREE.MeshPhongMaterial({
                 // color: GUIController.Print_Color,
-                map: printTexture1,
+                map: printTextures[GUIController.Texture],
                 clippingPlanes: [this.clippingPlane],
                 flatShading: false,
                 side: THREE.DoubleSide
@@ -190,7 +190,7 @@ class Printer {
 
             shapeMaterial = new THREE.MeshPhongMaterial({
                 //color: GUIController.Print_Color,
-                map: printTexture1,
+                map: printTextures[GUIController.Texture],
                 clippingPlanes: [this.clippingPlane],
                 flatShading: false,
                 side: THREE.DoubleSide

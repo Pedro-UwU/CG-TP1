@@ -8,7 +8,19 @@ const woodTexture = new THREE.TextureLoader().load('./src/assets/wood.jpg', unde
 const metalPlateTexture = new THREE.TextureLoader().load('./src/assets/metalPlate.jpg', undefined, undefined, (err) => {console.log("Error loading texture")})
 const envTexture = new THREE.TextureLoader().load('./src/assets/envTexture.jpg', undefined, undefined, (err) => {console.log("Error loading texture")})
 
-const printTexture1 = new THREE.TextureLoader().load('./src/assets/Pattern2A.png', undefined, undefined, (err) => {console.log("Error loading texture")})
+const printTexture1 = new THREE.TextureLoader().load('./src/assets/P1.png', undefined, undefined, (err) => {console.log("Error loading texture")})
+const printTexture2 = new THREE.TextureLoader().load('./src/assets/P2.png', undefined, undefined, (err) => {console.log("Error loading texture")})
+const printTexture3 = new THREE.TextureLoader().load('./src/assets/P3.png', undefined, undefined, (err) => {console.log("Error loading texture")})
+const printTexture4 = new THREE.TextureLoader().load('./src/assets/P4.png', undefined, undefined, (err) => {console.log("Error loading texture")})
+const printTexture5 = new THREE.TextureLoader().load('./src/assets/P5.png', undefined, undefined, (err) => {console.log("Error loading texture")})
+
+const printTextures = {
+    "Texture1": printTexture1,
+    "Texture2": printTexture2,
+    "Texture3": printTexture3,
+    "Texture4": printTexture4,
+    "Texture5": printTexture5
+}
 
 
 floorTexture.wrapS = THREE.RepeatWrapping
@@ -36,6 +48,22 @@ woodTexture.repeat.set(0.005,18)
 printTexture1.wrapS = THREE.MirroredRepeatWrapping
 printTexture1.wrapT = THREE.MirroredRepeatWrapping
 printTexture1.repeat.set(8,16)
+
+printTexture2.wrapS = THREE.MirroredRepeatWrapping
+printTexture2.wrapT = THREE.MirroredRepeatWrapping
+printTexture2.repeat.set(8,16)
+
+printTexture3.wrapS = THREE.RepeatWrapping
+printTexture3.wrapT = THREE.RepeatWrapping
+printTexture3.repeat.set(1,2)
+
+printTexture4.wrapS = THREE.MirroredRepeatWrapping
+printTexture4.wrapT = THREE.MirroredRepeatWrapping
+printTexture4.repeat.set(2,4)
+
+printTexture5.wrapS = THREE.MirroredRepeatWrapping
+printTexture5.wrapT = THREE.MirroredRepeatWrapping
+printTexture5.repeat.set(2,4)
 
 
 
